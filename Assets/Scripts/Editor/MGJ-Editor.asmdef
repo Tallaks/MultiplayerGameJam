@@ -1,0 +1,17 @@
+{
+    "name": "MGL-Editor",
+    "rootNamespace": "MGJ.Editor",
+    "references": [
+        "GUID:343deaaf83e0cee4ca978e7df0b80d21",
+        "GUID:ef9faa5aa8ecd8845ba80ca693c8ddd1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
