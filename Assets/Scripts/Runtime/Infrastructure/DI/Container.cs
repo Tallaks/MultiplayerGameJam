@@ -26,19 +26,34 @@ namespace MGJ.Runtime.Infrastructure.DI
 			set => _services[type] = value;
 		}
 		
-		public class Binding<TService>
+		public class Binding<TService> where TService : IService
 		{
 			private readonly Container _container;
 
-			private Type ServiceType => typeof(TService); 
+			public Type ServiceType => typeof(TService); 
 
 			public Binding(Container container) => 
 				_container = container;
 
-			public void To<T>(Func<T> constructionMethod) where T : class, IService
+			public DependencyInfo<T> To<T>() where T : class, IService
 			{
-				_container[ServiceType] = constructionMethod.Invoke();
 				Debug.Log($"Service {ServiceType.Name} is registered as instance of {typeof(T).Name}");
+				return new DependencyInfo<T>(_container, this);
+			}
+			
+			public class DependencyInfo<T> where T : class, IService
+			{
+				private Container _container;
+				private Binding<TService> _binding;
+
+				public DependencyInfo(Container container, Binding<TService> binding)
+				{
+					_binding = binding;
+					_container = container;
+				}
+
+				public void FromMethod(Func<T> constructionMethod) => 
+					_container[_binding.ServiceType] = constructionMethod?.Invoke();
 			}
 		}
 	}

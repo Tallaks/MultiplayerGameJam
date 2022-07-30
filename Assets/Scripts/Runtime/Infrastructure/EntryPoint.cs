@@ -18,15 +18,24 @@ namespace MGJ.Runtime.Infrastructure
 
 		private void BindServices()
 		{
-			Container.Services.Bind<IAssetLoader>().To(() => new AssetLoader());
+			Container.Services.
+				Bind<IAssetLoader>().
+				To<AssetLoader>()
+				.FromMethod(() => new AssetLoader());
+			
 			var assetLoader = Container.Services.Resolve<IAssetLoader>();
 			
-			Container.Services.Bind<IGameObjectFactory>().To(() => new GameObjectFactory());
+			Container.Services.
+				Bind<IGameObjectFactory>().
+				To<GameObjectFactory>().
+				FromMethod(() => new GameObjectFactory());
+			
 			var gameObjectFactory = Container.Services.Resolve<IGameObjectFactory>();
 
 			Container.Services.
 				Bind<ICoroutineRunner>().
-				To(() => 
+				To<CoroutineRunner>().
+				FromMethod(() => 
 					gameObjectFactory.Create(assetLoader.LoadFromResources<GameObject>("CoroutineRunner"))
 						.With(o => o.AddComponent<CoroutineRunner>()).GetComponent<CoroutineRunner>());
 		}
