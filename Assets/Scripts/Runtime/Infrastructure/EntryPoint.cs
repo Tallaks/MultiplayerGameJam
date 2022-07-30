@@ -1,5 +1,4 @@
 using MGJ.Runtime.Infrastructure.DI;
-using MGJ.Runtime.Infrastructure.Services;
 using MGJ.Runtime.Infrastructure.Services.Assets;
 using MGJ.Runtime.Infrastructure.Services.Coroutines;
 using MGJ.Runtime.Infrastructure.Services.GameObjects;
@@ -15,6 +14,10 @@ namespace MGJ.Runtime.Infrastructure
 			Debug.Log("Preparing Services...");
 			BindServices();
 			Debug.Log("Services prepared");
+			
+			Debug.Log("Loading next scene...");
+			
+			Container.Services.Resolve<ISceneLoader>().LoadScene("MainMenu");
 		}
 
 		private void BindServices()
