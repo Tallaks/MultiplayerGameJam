@@ -66,7 +66,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
         menuButtons.SetActive(true);
 
         PhotonNetwork.NickName = Random.Range(0, 1000).ToString();
-
+        // Prompt player for name input and save name
         if(!hasSetNick) {
             CloseMenus();
             nameInputScreen.SetActive(true);
@@ -107,6 +107,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
         ListAllPlayers();
     }
 
+    // Loops through each player in the room and displays player name
     private void ListAllPlayers() {
         foreach(TMP_Text player in allPlayerNames) {
             Destroy(player.gameObject);
@@ -123,6 +124,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
         }
     }
 
+    // Adds players nickname to the name display panel in a room
     public override void OnPlayerEnteredRoom(Player newPlayer) {
         TMP_Text newPlayerLabel = Instantiate(playerNameLabel, playerNameLabel.transform.parent);
         newPlayerLabel.text = newPlayer.NickName;
