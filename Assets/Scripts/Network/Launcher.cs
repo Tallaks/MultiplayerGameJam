@@ -34,6 +34,8 @@ public class Launcher : MonoBehaviourPunCallbacks {
     public TMP_InputField nameInput;
     private bool hasSetNick;
 
+    public string levelToPlay;
+    public GameObject startButton;
 
     private void Start() {
         CloseMenus();
@@ -57,6 +59,8 @@ public class Launcher : MonoBehaviourPunCallbacks {
     public override void OnConnectedToMaster() {
 
         PhotonNetwork.JoinLobby();
+
+        PhotonNetwork.AutomaticallySyncScene = true;
 
         loadingText.text = "Joining Lobby...";
     }
@@ -105,6 +109,14 @@ public class Launcher : MonoBehaviourPunCallbacks {
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
         ListAllPlayers();
+
+        // Only show start button for host
+        if(PhotonNetwork.IsMasterClient) {
+            startButton.SetActive(true);
+        }
+        else {
+            startButton.SetActive(false);
+        }
     }
 
     // Loops through each player in the room and displays player name
@@ -210,6 +222,10 @@ public class Launcher : MonoBehaviourPunCallbacks {
 
             hasSetNick = true;
         }
+    }
+
+    public void StartGame() {
+        PhotonNetwork.LoadLevel(levelToPlay);
     }
 
     public void QuitGame() {
