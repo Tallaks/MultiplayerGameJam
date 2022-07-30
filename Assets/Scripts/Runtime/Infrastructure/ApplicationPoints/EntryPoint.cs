@@ -52,7 +52,8 @@ namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 			Container.Services.
 				Bind<IConnection>().
 				To<PhotonConnectionService>().
-				FromMethod(() => new PhotonConnectionService());
+				FromMethod(() => gameObjectFactory.Create(assetLoader.LoadFromResources<GameObject>("PhotonConnection"))
+					.GetComponent<PhotonConnectionService>());
 		}
 	}
 }

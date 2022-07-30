@@ -2006,7 +2006,6 @@ MonoBehaviour:
   nameInput: {fileID: 527994067}
   levelToPlay: TestScene
   startButton: {fileID: 245012788}
-  roomTestButton: {fileID: 2118081999}
 --- !u!1 &835776970
 GameObject:
   m_ObjectHideFlags: 0

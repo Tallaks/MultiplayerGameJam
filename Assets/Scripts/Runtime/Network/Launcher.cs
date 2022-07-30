@@ -38,22 +38,7 @@ namespace MGJ.Runtime.Network
 
         public string levelToPlay;
         public GameObject startButton;
-
-        public GameObject roomTestButton;
-
-        private void Start() {
-           /* CloseMenus();
-
-            loadingScreen.SetActive(true);
-            loadingText.text = "Connecting To Network...";
-
-            PhotonNetwork.ConnectUsingSettings();*/
-
-#if UNITY_EDITOR
-            roomTestButton.SetActive(true);
-#endif
-        }
-
+        
         void CloseMenus() {
             loadingScreen.SetActive(false);
             menuButtons.SetActive(false);
@@ -65,11 +50,6 @@ namespace MGJ.Runtime.Network
         }
 
         public override void OnConnectedToMaster() {
-
-            PhotonNetwork.JoinLobby();
-
-            PhotonNetwork.AutomaticallySyncScene = true;
-
             loadingText.text = "Joining Lobby...";
         }
 
