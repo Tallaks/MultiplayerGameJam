@@ -1,8 +1,9 @@
+using MGJ.Runtime.Network;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 
-namespace MGJ.Runtime.Network
+namespace MGJ.Runtime.UI.Lobby
 {
     public class RoomButton : MonoBehaviour
     {
