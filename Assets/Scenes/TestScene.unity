@@ -238,7 +238,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ddaa7c4a22a1f54199a06b630c45ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 0}
+  playerPrefab: {fileID: 1137791245794256092, guid: 69b1f38ff3cae2a40b703df97ba17c72,
+    type: 3}
 --- !u!4 &62835163
 Transform:
   m_ObjectHideFlags: 0
@@ -497,6 +498,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 306701545}
+  - component: {fileID: 306701546}
   m_Layer: 0
   m_Name: Spawn Manager
   m_TagString: Untagged
@@ -522,6 +524,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &306701546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306701544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354e6c9b132455a449d8f1af91e29f78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoints:
+  - {fileID: 2363065852293183676}
+  - {fileID: 705275717}
+  - {fileID: 44294384}
 --- !u!1 &343391529
 GameObject:
   m_ObjectHideFlags: 0
