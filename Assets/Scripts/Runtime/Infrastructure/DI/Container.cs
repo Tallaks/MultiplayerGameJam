@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace MGJ.Runtime.Infrastructure.DI
 {
@@ -34,8 +35,11 @@ namespace MGJ.Runtime.Infrastructure.DI
 			public Binding(Container container) => 
 				_container = container;
 
-			public void To<T>(Func<T> constructionMethod) where T : class, IService =>
+			public void To<T>(Func<T> constructionMethod) where T : class, IService
+			{
 				_container[ServiceType] = constructionMethod.Invoke();
+				Debug.Log($"Service {ServiceType.Name} is registered as instance of {typeof(T).Name}");
+			}
 		}
 	}
 }

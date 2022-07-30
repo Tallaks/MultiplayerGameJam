@@ -1,4 +1,8 @@
 using MGJ.Runtime.Infrastructure.DI;
+using MGJ.Runtime.Infrastructure.Services;
+using MGJ.Runtime.Infrastructure.Services.Assets;
+using MGJ.Runtime.Infrastructure.Services.Coroutines;
+using MGJ.Runtime.Infrastructure.Services.GameObjects;
 using UnityEngine;
 
 namespace MGJ.Runtime.Infrastructure
@@ -7,8 +11,24 @@ namespace MGJ.Runtime.Infrastructure
 	{
 		private void Awake()
 		{
-			Container.Services.Bind<ITestService>().To(() => new TestService());
-			Container.Services.Resolve<ITestService>().Test();
+			Debug.Log("Preparing Services...");
+			BindServices();
+			Debug.Log("Services prepared");
+		}
+
+		private void BindServices()
+		{
+			Container.Services.Bind<IAssetLoader>().To(() => new AssetLoader());
+			var assetLoader = Container.Services.Resolve<IAssetLoader>();
+			
+			Container.Services.Bind<IGameObjectFactory>().To(() => new GameObjectFactory());
+			var gameObjectFactory = Container.Services.Resolve<IGameObjectFactory>();
+
+			Container.Services.
+				Bind<ICoroutineRunner>().
+				To(() => 
+					gameObjectFactory.Create(assetLoader.LoadFromResources<GameObject>("CoroutineRunner"))
+						.With(o => o.AddComponent<CoroutineRunner>()).GetComponent<CoroutineRunner>());
 		}
 	}
 }
