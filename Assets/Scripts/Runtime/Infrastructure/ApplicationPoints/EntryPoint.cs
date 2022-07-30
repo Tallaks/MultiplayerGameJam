@@ -2,10 +2,11 @@ using MGJ.Runtime.Infrastructure.DI;
 using MGJ.Runtime.Infrastructure.Services.Assets;
 using MGJ.Runtime.Infrastructure.Services.Coroutines;
 using MGJ.Runtime.Infrastructure.Services.GameObjects;
+using MGJ.Runtime.Infrastructure.Services.Network;
 using MGJ.Runtime.Infrastructure.Services.SceneManagement;
 using UnityEngine;
 
-namespace MGJ.Runtime.Infrastructure
+namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 {
 	public class EntryPoint : MonoBehaviour
 	{
@@ -47,6 +48,11 @@ namespace MGJ.Runtime.Infrastructure
 				Bind<ISceneLoader>().
 				To<StandardSceneLoader>().
 				FromMethod(() => new StandardSceneLoader(Container.Services.Resolve<ICoroutineRunner>()));
+			
+			Container.Services.
+				Bind<IConnection>().
+				To<PhotonConnectionService>().
+				FromMethod(() => new PhotonConnectionService());
 		}
 	}
 }

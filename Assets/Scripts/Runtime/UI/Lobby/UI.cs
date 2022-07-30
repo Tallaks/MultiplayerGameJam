@@ -65,9 +65,10 @@ namespace MGJ.Runtime.UI.Lobby
 			_nameInputScreen.SetActive(false);
 		}
 
+		public void ShowLoadingScreen() => 
+			_loadingScreen.SetActive(true);
+		
 		public void DisplayLoadingText(string text) => 
 			_loadingText.text = text;
-		
-		
 	}
 }

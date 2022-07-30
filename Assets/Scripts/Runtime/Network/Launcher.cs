@@ -42,12 +42,12 @@ namespace MGJ.Runtime.Network
         public GameObject roomTestButton;
 
         private void Start() {
-            CloseMenus();
+           /* CloseMenus();
 
             loadingScreen.SetActive(true);
             loadingText.text = "Connecting To Network...";
 
-            PhotonNetwork.ConnectUsingSettings();
+            PhotonNetwork.ConnectUsingSettings();*/
 
 #if UNITY_EDITOR
             roomTestButton.SetActive(true);

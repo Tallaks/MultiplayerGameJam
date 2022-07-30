@@ -12,13 +12,13 @@ namespace MGJ.Runtime.UI.MainMenu
 		private void OnEnable()
 		{
 			_enterLobbyButton.onClick.AddListener(_mediator.EnterLobby);
-			_enterLobbyButton.onClick.AddListener(_mediator.QuitGame);
+			_exitGameButton.onClick.AddListener(_mediator.QuitGame);
 		}
 
 		private void OnDisable()
 		{
 			_enterLobbyButton.onClick.RemoveAllListeners();
-			_enterLobbyButton.onClick.RemoveAllListeners();
+			_exitGameButton.onClick.RemoveAllListeners();
 		}
 	}
 }
