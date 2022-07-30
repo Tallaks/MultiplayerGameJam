@@ -17,7 +17,7 @@ namespace MGJ.Runtime.Infrastructure
 			
 			Debug.Log("Loading next scene...");
 			
-			Container.Services.Resolve<ISceneLoader>().LoadScene("MainMenu");
+			Container.Services.Resolve<ISceneLoader>().LoadScene("Lobby");
 		}
 
 		private void BindServices()
