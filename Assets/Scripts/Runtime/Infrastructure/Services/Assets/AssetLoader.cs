@@ -1,7 +1,6 @@
-using MGJ.Runtime.Infrastructure.Services.Assets;
 using UnityEngine;
 
-namespace MGJ.Runtime.Infrastructure
+namespace MGJ.Runtime.Infrastructure.Services.Assets
 {
 	public class AssetLoader : IAssetLoader
 	{

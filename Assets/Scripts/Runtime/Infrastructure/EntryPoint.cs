@@ -3,6 +3,7 @@ using MGJ.Runtime.Infrastructure.Services;
 using MGJ.Runtime.Infrastructure.Services.Assets;
 using MGJ.Runtime.Infrastructure.Services.Coroutines;
 using MGJ.Runtime.Infrastructure.Services.GameObjects;
+using MGJ.Runtime.Infrastructure.Services.SceneManagement;
 using UnityEngine;
 
 namespace MGJ.Runtime.Infrastructure
@@ -38,6 +39,11 @@ namespace MGJ.Runtime.Infrastructure
 				FromMethod(() => 
 					gameObjectFactory.Create(assetLoader.LoadFromResources<GameObject>("CoroutineRunner"))
 						.With(o => o.AddComponent<CoroutineRunner>()).GetComponent<CoroutineRunner>());
+			
+			Container.Services.
+				Bind<ISceneLoader>().
+				To<StandardSceneLoader>().
+				FromMethod(() => new StandardSceneLoader(Container.Services.Resolve<ICoroutineRunner>()));
 		}
 	}
 }

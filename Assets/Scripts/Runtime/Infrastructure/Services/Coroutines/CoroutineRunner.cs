@@ -1,7 +1,6 @@
-using MGJ.Runtime.Infrastructure.Services.Coroutines;
 using UnityEngine;
 
-namespace MGJ.Runtime.Infrastructure.Services
+namespace MGJ.Runtime.Infrastructure.Services.Coroutines
 {
 	public class CoroutineRunner : MonoBehaviour, ICoroutineRunner
 	{
