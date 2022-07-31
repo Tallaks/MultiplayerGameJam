@@ -14,5 +14,11 @@ namespace MGJ.Runtime.UI.Lobby
 
 		public void ShowLoadingScreen() =>
 			_ui.ShowLoadingScreen();
+
+		public void ShowMenu() => 
+			_ui.ShowMenu();
+
+		public void ShowNameInput() => 
+			_ui.ShowInputNameScreen();
 	}
 }

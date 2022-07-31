@@ -49,29 +49,6 @@ namespace MGJ.Runtime.Network
             nameInputScreen.SetActive(false);
         }
 
-        public override void OnConnectedToMaster() {
-            loadingText.text = "Joining Lobby...";
-        }
-
-        public override void OnJoinedLobby() {
-            CloseMenus();
-            menuButtons.SetActive(true);
-
-            PhotonNetwork.NickName = Random.Range(0, 1000).ToString();
-            // Prompt player for name input and save name
-            if(!hasSetNick) {
-                CloseMenus();
-                nameInputScreen.SetActive(true);
-
-                if(PlayerPrefs.HasKey("playerName")) {
-                    nameInput.text = PlayerPrefs.GetString("playerName");
-                }
-            }
-            else {
-                PhotonNetwork.NickName = PlayerPrefs.GetString("playerName");
-            }
-        }
-
         public void OpenRoomCreate() {
             CloseMenus();
             createRoomScreen.SetActive(true);
@@ -198,20 +175,7 @@ namespace MGJ.Runtime.Network
             loadingText.text = "Joining Room";
             loadingScreen.SetActive(true);
         }
-
-        public void SetNickname() {
-            if(!string.IsNullOrEmpty(nameInput.text)) {
-                PhotonNetwork.NickName = nameInput.text;
-
-                PlayerPrefs.SetString("playerName", nameInput.text);
-
-                CloseMenus();
-                menuButtons.SetActive(true);
-
-                hasSetNick = true;
-            }
-        }
-
+        
         public void StartGame() {
             PhotonNetwork.LoadLevel(levelToPlay);
         }

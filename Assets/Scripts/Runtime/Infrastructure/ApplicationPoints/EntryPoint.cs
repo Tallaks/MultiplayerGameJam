@@ -18,7 +18,7 @@ namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 			
 			Debug.Log("Loading next scene...");
 			
-			Container.Services.Resolve<ISceneLoader>().LoadScene("Lobby");
+			Container.Services.Resolve<ISceneLoader>().LoadScene("MainMenu");
 		}
 
 		private void BindServices()
@@ -54,6 +54,11 @@ namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 				To<PhotonConnectionService>().
 				FromMethod(() => gameObjectFactory.Create(assetLoader.LoadFromResources<GameObject>("PhotonConnection"))
 					.GetComponent<PhotonConnectionService>());
+
+			Container.Services.
+				Bind<ILobby>().
+				To<PhotonLobby>().
+				FromMethod(FindObjectOfType<PhotonLobby>);
 		}
 	}
 }

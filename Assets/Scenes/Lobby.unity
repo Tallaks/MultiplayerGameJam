@@ -1144,6 +1144,7 @@ GameObject:
   - component: {fileID: 527994070}
   - component: {fileID: 527994069}
   - component: {fileID: 527994067}
+  - component: {fileID: 527994071}
   m_Layer: 5
   m_Name: Name Input
   m_TagString: Untagged
@@ -1308,6 +1309,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 527994066}
   m_CullTransparentMesh: 1
+--- !u!114 &527994071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527994066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c150f68312e441b5aaf7e79cf231663d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mediator: {fileID: 1288657726}
+  _submitButton: {fileID: 1115152025}
 --- !u!1 &557436550
 GameObject:
   m_ObjectHideFlags: 0
@@ -2606,6 +2621,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9000415036307148522, guid: 32def66d18a2784459bf259e53417973,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9000415036307148522, guid: 32def66d18a2784459bf259e53417973,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 816343655}
@@ -2752,6 +2772,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1115152023}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1115152025 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9000415036307148522, guid: 32def66d18a2784459bf259e53417973,
+    type: 3}
+  m_PrefabInstance: {fileID: 1115152023}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1162800648
 GameObject:
   m_ObjectHideFlags: 0
