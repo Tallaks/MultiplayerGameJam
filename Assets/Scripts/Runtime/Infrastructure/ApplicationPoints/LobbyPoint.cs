@@ -43,6 +43,7 @@ namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 			_lobbyService.OnCreateRoomFailedAction += OnCreateRoomFailed;
 			_lobbyService.OnLeftRoomAction += OnLeftRoom;
 			_lobbyService.OnRoomListUpdateAction += OnUpdateList;
+			_lobbyService.OnMasterClientSwitchedAction += OnMasterClientSwitched;
 			
 			_uiMediator.ShowLoadingScreen();
 			
@@ -59,17 +60,16 @@ namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 			_lobbyService.OnCreateRoomFailedAction -= OnCreateRoomFailed;
 			_lobbyService.OnLeftRoomAction -= OnLeftRoom;
 			_lobbyService.OnRoomListUpdateAction -= OnUpdateList;
+			_lobbyService.OnMasterClientSwitchedAction -= OnMasterClientSwitched;
 		}
 
-		private void OnUpdateList(IEnumerable<RoomDecorator> roomList)
+		private void OnMasterClientSwitched(PlayerDecorator player)
 		{
-			_uiMediator.UpdateRoomList(roomList);
-			
-
-
-			// Create room button if room is not full and the room exists
-
+			_uiMediator.UpdateHostUi();
 		}
+
+		private void OnUpdateList(IEnumerable<RoomDecorator> roomList) => 
+			_uiMediator.UpdateRoomList(roomList);
 
 		private void OnLeftRoom() => 
 			_uiMediator.ShowMenu();

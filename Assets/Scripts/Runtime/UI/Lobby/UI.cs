@@ -178,5 +178,11 @@ namespace MGJ.Runtime.UI.Lobby
 				}
 			}
 		}
+
+		public void ShowStartButton() => 
+			_startButton.SetActive(true);
+
+		public void HideStartButton() => 
+			_startButton.SetActive(false);
 	}
 }

@@ -97,5 +97,13 @@ namespace MGJ.Runtime.UI.Lobby
 			DisplayLoadingText("Joining Room");
 			ShowLoadingScreen();
 		}
+
+		public void UpdateHostUi()
+		{
+			if (_lobbyService.IsMasterClient)
+				_ui.ShowStartButton();
+			else
+				_ui.HideStartButton();
+		}
 	}
 }

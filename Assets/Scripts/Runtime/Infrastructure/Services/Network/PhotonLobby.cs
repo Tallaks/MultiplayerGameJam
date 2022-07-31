@@ -24,6 +24,7 @@ namespace MGJ.Runtime.Infrastructure.Services.Network
 		public UnityAction<short, string> OnCreateRoomFailedAction { get; set; }
 		public UnityAction OnLeftRoomAction { get; set; }
 		public UnityAction<IEnumerable<RoomDecorator>> OnRoomListUpdateAction { get; set; }
+		public UnityAction<PlayerDecorator> OnMasterClientSwitchedAction { get; set; }
 
 		public void SetNickName(string nickName) => 
 			PhotonNetwork.NickName = nickName;
@@ -63,6 +64,12 @@ namespace MGJ.Runtime.Infrastructure.Services.Network
 		{
 			List<RoomDecorator> decoratorList = roomList.Select(roomInfo => new RoomDecorator(roomInfo)).ToList();
 			OnRoomListUpdateAction?.Invoke(decoratorList);
+		}
+
+		public override void OnMasterClientSwitched(Player newMasterClient)
+		{
+			var decorator = new PlayerDecorator(newMasterClient);
+			OnMasterClientSwitchedAction?.Invoke(decorator);
 		}
 	}
 }
