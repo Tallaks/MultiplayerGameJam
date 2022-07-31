@@ -90,7 +90,7 @@ namespace MGJ.Runtime.Gameplay.Player
             if(Input.GetMouseButton(1) && viewCollider.selectedObject != null) {
                 PickupObject();
             }
-            
+            // Drop object when right click is released
             if(Input.GetMouseButtonUp(1)) {
                 viewCollider.selectedObject = null;
             }
@@ -115,9 +115,9 @@ namespace MGJ.Runtime.Gameplay.Player
                     viewCollider.selectedObject.GetComponent<Rigidbody>().velocity = ((grabPoint.transform.position - viewCollider.selectedObject.transform.position) * objectFollowSpeed / viewCollider.selectedObject.GetComponent<Rigidbody>().mass);
                 }
             }
-            // Calculate distance to let go of object when the object is too far from the grabpoint
+            // Calculate distance between grabPoint and current object grabbed
             float distance = Vector3.Distance(grabPoint.transform.position, viewCollider.selectedObject.transform.position);
-
+            // Drop object if it is too far
             if (distance > 1.35f)
                 viewCollider.selectedObject = null;
         }

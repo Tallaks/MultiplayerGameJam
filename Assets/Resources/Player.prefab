@@ -364,6 +364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedObject: {fileID: 0}
   controller: {fileID: 1137791245794256089}
+  isHighlighting: 0
 --- !u!54 &1258415794915626811
 Rigidbody:
   m_ObjectHideFlags: 0
