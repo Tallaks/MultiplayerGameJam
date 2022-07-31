@@ -48,42 +48,7 @@ namespace MGJ.Runtime.Network
             roomBrowserScreen.SetActive(false);
             nameInputScreen.SetActive(false);
         }
-
-        public void OpenRoomCreate() {
-            CloseMenus();
-            createRoomScreen.SetActive(true);
-        }
-
-        public void CreateRoom() {
-            if (!string.IsNullOrEmpty(roomNameInput.text)) {
-                RoomOptions options = new RoomOptions();
-                options.MaxPlayers = 3;
-
-                PhotonNetwork.CreateRoom(roomNameInput.text, options);
-
-                CloseMenus();
-                loadingText.text = "Creating Room...";
-                loadingScreen.SetActive(true);
-            }
-        }
-
-        public override void OnJoinedRoom() {
-            CloseMenus();
-            roomScreen.SetActive(true);
-
-            roomNameText.text = PhotonNetwork.CurrentRoom.Name;
-
-            ListAllPlayers();
-
-            // Only show start button for host
-            if(PhotonNetwork.IsMasterClient) {
-                startButton.SetActive(true);
-            }
-            else {
-                startButton.SetActive(false);
-            }
-        }
-
+        
         // Loops through each player in the room and displays player name
         private void ListAllPlayers() {
             foreach(TMP_Text player in allPlayerNames) {
@@ -119,12 +84,7 @@ namespace MGJ.Runtime.Network
             CloseMenus();
             errorScreen.SetActive(true);
         }
-
-        public void CloseErrorScreen() {
-            CloseMenus();
-            menuButtons.SetActive(true);
-        }
-
+        
         public void LeaveRoom() {
             PhotonNetwork.LeaveRoom();
             CloseMenus();
@@ -133,16 +93,6 @@ namespace MGJ.Runtime.Network
         }
 
         public override void OnLeftRoom() {
-            CloseMenus();
-            menuButtons.SetActive(true);
-        }
-
-        public void OpenRoomBrowser() {
-            CloseMenus();
-            roomBrowserScreen.SetActive(true);
-        }
-
-        public void CloseRoomBrowser() {
             CloseMenus();
             menuButtons.SetActive(true);
         }
@@ -198,10 +148,6 @@ namespace MGJ.Runtime.Network
             CloseMenus();
             loadingText.text = "Creating Room";
             loadingScreen.SetActive(true);
-        }
-
-        public void QuitGame() {
-            Application.Quit();
         }
     }
 }

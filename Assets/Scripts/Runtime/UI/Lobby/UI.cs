@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MGJ.Runtime.UI.Lobby
 {
@@ -21,9 +24,9 @@ namespace MGJ.Runtime.UI.Lobby
 
 		[Header("Room Screen")] 
 		[SerializeField] private GameObject _roomScreen;
-		[SerializeField] private TMP_Text _roomNameText;
+		[FormerlySerializedAs("_roomNameText")] [SerializeField] private TMP_Text _currentRoomNameText;
 		[SerializeField] private TMP_Text _playerNameLabel;
-		private List<TMP_Text> _allPlayerNames;
+		private List<TMP_Text> _allPlayerNames = new();
 		
 		[Header("Error Screen")]
 		[SerializeField] private GameObject _errorScreen;
@@ -38,23 +41,10 @@ namespace MGJ.Runtime.UI.Lobby
 		[SerializeField] private GameObject _nameInputScreen;
 		[SerializeField] private TMP_InputField _nameInput;
 
-		private void Awake()
-		{
-			CloseMenus();
-			
-		}
+		private void Awake() => 
+			HideAllUi();
 
-		public void OpenUiScreen(GameObject screen)
-		{
-			screen.SetActive(true);
-		}
-
-		public void CloseUiScreen(GameObject screen)
-		{
-			screen.SetActive(false);
-		}
-
-		public void CloseMenus() 
+		public void HideAllUi() 
 		{
 			_loadingScreen.SetActive(false);
 			_menuButtons.SetActive(false);
@@ -74,7 +64,65 @@ namespace MGJ.Runtime.UI.Lobby
 		public void ShowMenu() => 
 			_menuButtons.SetActive(true);
 
-		public void ShowInputNameScreen() => 
+		public void ShowInputNameScreen()
+		{
+			HideAllUi();
 			_nameInputScreen.SetActive(true);
+		}
+
+		public void ShowRoomBrowser()
+		{
+			HideAllUi();
+			_roomBrowserScreen.SetActive(true);
+		}
+
+		public void HideRoomBrowser()
+		{
+			HideAllUi();
+			_menuButtons.SetActive(true);
+		}
+
+		public void ShowCreateRoomScreen()
+		{
+			HideAllUi();
+			_createRoomScreen.SetActive(true);
+		}
+
+		public string GetRoomName() => 
+			_roomNameInput.text;
+		
+		public void CloseErrorScreen() {
+			HideAllUi();
+			_menuButtons.SetActive(true);
+		}
+
+		public void ShowCurrentRoomScreen(string currentRoomName, IEnumerable<string> playerNames,
+			bool isMasterClient)
+		{
+			HideAllUi();
+			_roomScreen.SetActive(true);
+			_currentRoomNameText.text = currentRoomName;
+			
+			ListAllPlayers(playerNames);
+
+			_startButton.SetActive(isMasterClient);
+		}
+		
+		private void ListAllPlayers(IEnumerable<string> playerNames) 
+		{
+			foreach(TMP_Text player in _allPlayerNames) {
+				Destroy(player.gameObject);
+			}
+			_allPlayerNames = new List<TMP_Text>();
+
+			foreach (string playerName in playerNames)
+			{
+				TMP_Text newPlayerLabel = Instantiate(_playerNameLabel, _playerNameLabel.transform.parent);
+				newPlayerLabel.text = playerName;
+				newPlayerLabel.gameObject.SetActive(true);
+				
+				_allPlayerNames.Add(newPlayerLabel);
+			}
+		}
 	}
 }

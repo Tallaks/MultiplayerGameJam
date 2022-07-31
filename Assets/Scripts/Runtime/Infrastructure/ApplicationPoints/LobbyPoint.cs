@@ -1,14 +1,14 @@
 using MGJ.Runtime.Infrastructure.DI;
 using MGJ.Runtime.Infrastructure.Services.Network;
 using MGJ.Runtime.UI.Lobby;
-using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 {
 	public class LobbyPoint : MonoBehaviour
 	{
-		[SerializeField] private Mediator _mediator;
+		[FormerlySerializedAs("_mediator")] [SerializeField] private Mediator _uiMediator;
 		
 		private IConnection _connectionService;
 		private ILobby _lobbyService;
@@ -20,14 +20,20 @@ namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 
 		private void Start()
 		{
-			_connectionService.OnConnectedAction += () => _mediator.DisplayLoadingText("Joining Lobby...");
+			_connectionService.OnConnectedAction += () => _uiMediator.DisplayLoadingText("Joining Lobby...");
 			_lobbyService.OnJoinedLobbyAction += OnJoinedLobby;
+			_lobbyService.OnJoinedRoomAction += OnJoinedRoom;
 			
-			_mediator.CloseAllMenus();
-			_mediator.ShowLoadingScreen();
-			_mediator.DisplayLoadingText("Connecting To Network...");
+			_uiMediator.CloseAllMenus();
+			_uiMediator.ShowLoadingScreen();
+			_uiMediator.DisplayLoadingText("Connecting To Network...");
 			
 			_connectionService.Connect();
+		}
+
+		private void OnJoinedRoom()
+		{
+			_uiMediator.ShowCurrentRoomScreen(_lobbyService.CurrentRoomName);
 		}
 
 		private void Construct()
@@ -38,16 +44,13 @@ namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 
 		private void OnJoinedLobby() 
 		{
-			_mediator.CloseAllMenus();
-			_mediator.ShowMenu();
+			_uiMediator.CloseAllMenus();
+			_uiMediator.ShowMenu();
 
-			Debug.Log(PhotonNetwork.NickName);
-			
 			if (!_lobbyService.NickNameEntered)
 			{
 				_lobbyService.SetNickName(Random.Range(0, 1000).ToString());
-				_mediator.CloseAllMenus();
-				_mediator.ShowNameInput();
+				_uiMediator.ShowNameInput();
 			}
 		}
 	}
