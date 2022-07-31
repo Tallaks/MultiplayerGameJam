@@ -24,6 +24,8 @@ namespace MGJ.Runtime.Gameplay.Player
         private bool isGrounded;
         public LayerMask groundLayers;
 
+        public bool isOnline;
+
         private void Start() {
             Cursor.lockState = CursorLockMode.Locked;
 
@@ -32,7 +34,7 @@ namespace MGJ.Runtime.Gameplay.Player
 
         private void Update() {
             // Only control your your character
-            if (photonView.IsMine) {
+            if (photonView.IsMine || !isOnline) {
 
                 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
 
@@ -80,10 +82,14 @@ namespace MGJ.Runtime.Gameplay.Player
         }
 
         private void LateUpdate() {
-            if (photonView.IsMine) {
+            if (photonView.IsMine || !isOnline) {
                 cam.transform.position = viewPoint.position;
                 cam.transform.rotation = viewPoint.rotation;
             }
+        }
+
+        public void LightObject(GameObject lightableObject, int outlineWidth) {
+            lightableObject.GetComponent<Outline>().OutlineWidth = outlineWidth;
         }
     }
 }

@@ -19,12 +19,22 @@ namespace MGJ.Runtime.Gameplay
             if(PhotonNetwork.IsConnected) {
                 SpawnPlayer();
             }
+            else {
+                SpawnTestPlayer();
+            }
         }
 
         public void SpawnPlayer() {
             Transform spawnPoint = SpawnManager.instance.GetSpawnPoint();
 
             player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPoint.position, spawnPoint.rotation);
+        }
+
+        // Used for spawning player not connected to the network
+        public void SpawnTestPlayer() {
+            Transform spawnPoint = SpawnManager.instance.GetSpawnPoint();
+
+            player = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
         }
     }
 }
