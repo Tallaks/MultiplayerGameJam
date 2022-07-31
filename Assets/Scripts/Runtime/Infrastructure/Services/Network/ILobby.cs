@@ -23,5 +23,6 @@ namespace MGJ.Runtime.Infrastructure.Services.Network
 		void CreateRoom(string roomName);
 		void JoinRoom(RoomDecorator room);
 		void LeaveRoom();
+		void QuickJoin();
 	}
 }

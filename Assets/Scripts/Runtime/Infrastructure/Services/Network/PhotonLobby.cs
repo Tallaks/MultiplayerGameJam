@@ -71,5 +71,13 @@ namespace MGJ.Runtime.Infrastructure.Services.Network
 			var decorator = new PlayerDecorator(newMasterClient);
 			OnMasterClientSwitchedAction?.Invoke(decorator);
 		}
+
+		public void QuickJoin()
+		{
+			var options = new RoomOptions();
+			options.MaxPlayers = 2;
+
+			PhotonNetwork.CreateRoom("Test");
+		}
 	}
 }

@@ -105,5 +105,14 @@ namespace MGJ.Runtime.UI.Lobby
 			else
 				_ui.HideStartButton();
 		}
+
+		public void QuickJoin()
+		{
+			_lobbyService.QuickJoin();
+			
+			_ui.HideAllUi();
+			DisplayLoadingText("Creating Room");
+			ShowLoadingScreen();
+		}
 	}
 }
