@@ -87,5 +87,9 @@ namespace MGJ.Runtime.Gameplay.Player
                 cam.transform.rotation = viewPoint.rotation;
             }
         }
+
+        public void LightObject(GameObject lightableObject, int outlineWidth) {
+            lightableObject.GetComponent<Outline>().OutlineWidth = outlineWidth;
+        }
     }
 }

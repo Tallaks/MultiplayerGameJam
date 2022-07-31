@@ -14,13 +14,15 @@ namespace MGJ.Runtime.Gameplay.Player
         private void OnTriggerEnter(Collider other) {
             if (other.gameObject.HasTag(tags[0])) {
                 selectedObject = other.gameObject;
+                controller.LightObject(other.gameObject, 15);
             }
         }
 
         private void OnTriggerExit(Collider other) {
-            
+            if (other.gameObject.HasTag(tags[0])) {
+                selectedObject = other.gameObject;
+                controller.LightObject(other.gameObject, 0);
+            }
         }
-
-
     }
 }
