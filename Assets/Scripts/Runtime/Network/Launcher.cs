@@ -49,11 +49,6 @@ namespace MGJ.Runtime.Network
             nameInputScreen.SetActive(false);
         }
         
-        public override void OnLeftRoom() {
-            CloseMenus();
-            menuButtons.SetActive(true);
-        }
-
         public override void OnRoomListUpdate(List<RoomInfo> roomList) {
             // Destroy all room buttons
             foreach (RoomButton rb in allRoomButtons) {
@@ -83,10 +78,6 @@ namespace MGJ.Runtime.Network
             loadingScreen.SetActive(true);
         }
         
-        public void StartGame() {
-            PhotonNetwork.LoadLevel(levelToPlay);
-        }
-
         public override void OnMasterClientSwitched(Player newMasterClient) {
             // Only show start button for host
             if (PhotonNetwork.IsMasterClient) {

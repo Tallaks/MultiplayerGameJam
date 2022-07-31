@@ -22,6 +22,7 @@ namespace MGJ.Runtime.Infrastructure.Services.Network
 		public UnityAction<string> OnPlayerEnteredRoomAction { get; set; }
 		public UnityAction OnPlayerLeftRoomAction { get; set; }
 		public UnityAction<short, string> OnCreateRoomFailedAction { get; set; }
+		public UnityAction OnLeftRoomAction { get; set; }
 
 		public void SetNickName(string nickName) => 
 			PhotonNetwork.NickName = nickName;
@@ -50,5 +51,8 @@ namespace MGJ.Runtime.Infrastructure.Services.Network
 
 		public override void OnCreateRoomFailed(short returnCode, string message) => 
 			OnCreateRoomFailedAction?.Invoke(returnCode, message);
+
+		public override void OnLeftRoom() => 
+			OnLeftRoomAction?.Invoke();
 	}
 }

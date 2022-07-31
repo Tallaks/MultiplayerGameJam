@@ -541,7 +541,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 816343655}
+      objectReference: {fileID: 1288657726}
     - target: {fileID: 9000415036307148522, guid: 32def66d18a2784459bf259e53417973,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -550,7 +550,7 @@ PrefabInstance:
     - target: {fileID: 9000415036307148522, guid: 32def66d18a2784459bf259e53417973,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Launcher, Assembly-CSharp
+      value: MGJ.Runtime.UI.Lobby.Mediator, MGJ
       objectReference: {fileID: 0}
     - target: {fileID: 9000415036307148522, guid: 32def66d18a2784459bf259e53417973,
         type: 3}

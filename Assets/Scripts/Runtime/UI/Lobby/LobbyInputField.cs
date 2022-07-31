@@ -32,8 +32,7 @@ namespace MGJ.Runtime.UI.Lobby
 				_lobbyService.SetNickName(_inputField.text);
 
 				PlayerPrefs.SetString("playerName", _inputField.text);
-
-				_mediator.CloseAllMenus();
+				
 				_mediator.ShowMenu();
 			}
 		}

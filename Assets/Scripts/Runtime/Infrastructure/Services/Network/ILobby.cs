@@ -15,6 +15,7 @@ namespace MGJ.Runtime.Infrastructure.Services.Network
 		UnityAction<string> OnPlayerEnteredRoomAction { get; set; }
 		UnityAction OnPlayerLeftRoomAction { get; set; }
 		UnityAction<short, string> OnCreateRoomFailedAction { get; set; }
+		UnityAction OnLeftRoomAction { get; set; }
 		void SetNickName(string nickName);
 		void CreateRoom(string roomName);
 		void LeaveRoom();

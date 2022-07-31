@@ -40,6 +40,7 @@ namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 			_lobbyService.OnPlayerEnteredRoomAction += OnPlayerEnteredRoom;
 			_lobbyService.OnPlayerLeftRoomAction += OnPlayerLeftRoom;
 			_lobbyService.OnCreateRoomFailedAction += OnCreateRoomFailed;
+			_lobbyService.OnLeftRoomAction += OnLeftRoom;
 			
 			_uiMediator.ShowLoadingScreen();
 			
@@ -54,7 +55,11 @@ namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 			_lobbyService.OnPlayerEnteredRoomAction -= OnPlayerEnteredRoom;
 			_lobbyService.OnPlayerLeftRoomAction -= OnPlayerLeftRoom;
 			_lobbyService.OnCreateRoomFailedAction -= OnCreateRoomFailed;
+			_lobbyService.OnLeftRoomAction -= OnLeftRoom;
 		}
+
+		private void OnLeftRoom() => 
+			_uiMediator.ShowMenu();
 
 		private void OnCreateRoomFailed(short retCode, string message) => 
 			_uiMediator.ShowErrorScreen(message);
@@ -70,7 +75,6 @@ namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 
 		private void OnJoinedLobby() 
 		{
-			_uiMediator.CloseAllMenus();
 			_uiMediator.ShowMenu();
 
 			if (!_lobbyService.NickNameEntered)

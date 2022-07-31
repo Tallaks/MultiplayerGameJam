@@ -73,8 +73,11 @@ namespace MGJ.Runtime.UI.Lobby
 		public void DisplayLoadingText(string text) => 
 			_loadingText.text = text;
 
-		public void ShowMenu() => 
+		public void ShowMenu()
+		{
+			HideAllUi();
 			_menuButtons.SetActive(true);
+		}
 
 		public void ShowInputNameScreen()
 		{

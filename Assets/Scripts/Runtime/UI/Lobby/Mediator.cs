@@ -22,9 +22,6 @@ namespace MGJ.Runtime.UI.Lobby
 
 		public void DisplayLoadingText(string text) => 
 			_ui.DisplayLoadingText(text);
-		
-		public void CloseAllMenus() =>
-			_ui.HideAllUi();
 
 		public void ShowLoadingScreen() =>
 			_ui.ShowLoadingScreen();
