@@ -90,6 +90,10 @@ namespace MGJ.Runtime.Gameplay.Player
             if(Input.GetMouseButton(1) && viewCollider.selectedObject != null) {
                 PickupObject();
             }
+            
+            if(Input.GetMouseButtonUp(1)) {
+                viewCollider.selectedObject = null;
+            }
         }
 
         private void LateUpdate() {
