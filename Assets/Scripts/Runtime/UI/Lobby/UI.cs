@@ -1,6 +1,8 @@
 using System.Collections.Generic;
-using Photon.Pun;
-using Photon.Realtime;
+using System.Linq;
+using MGJ.Runtime.Infrastructure.DI;
+using MGJ.Runtime.Infrastructure.Services.GameObjects;
+using MGJ.Runtime.Infrastructure.Services.Network;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -35,14 +37,22 @@ namespace MGJ.Runtime.UI.Lobby
 		[Header("Room Browser Screen")]
 		[SerializeField] private GameObject _roomBrowserScreen;
 		[SerializeField] private RoomButton _roomButton;
-		private List<RoomButton> _allRoomButton;
+		private List<RoomButton> _allRoomButtons = new List<RoomButton>();
 
 		[Header("Name Input Screen")] 
 		[SerializeField] private GameObject _nameInputScreen;
 		[SerializeField] private TMP_InputField _nameInput;
+		
+		private IGameObjectFactory _gameObjectFactory;
 
-		private void Awake() => 
+		private void Awake()
+		{
+			Construct();
 			HideAllUi();
+		}
+
+		private void Construct() => 
+			_gameObjectFactory = Container.Services.Resolve<IGameObjectFactory>();
 
 		public void HideAllUi() 
 		{
@@ -55,14 +65,21 @@ namespace MGJ.Runtime.UI.Lobby
 			_nameInputScreen.SetActive(false);
 		}
 
-		public void ShowLoadingScreen() => 
+		public void ShowLoadingScreen()
+		{
+			HideAllUi();
 			_loadingScreen.SetActive(true);
-		
+			DisplayLoadingText("Connecting To Network...");
+		}
+
 		public void DisplayLoadingText(string text) => 
 			_loadingText.text = text;
 
-		public void ShowMenu() => 
+		public void ShowMenu()
+		{
+			HideAllUi();
 			_menuButtons.SetActive(true);
+		}
 
 		public void ShowInputNameScreen()
 		{
@@ -108,7 +125,7 @@ namespace MGJ.Runtime.UI.Lobby
 			_startButton.SetActive(isMasterClient);
 		}
 		
-		private void ListAllPlayers(IEnumerable<string> playerNames) 
+		public void ListAllPlayers(IEnumerable<string> playerNames) 
 		{
 			foreach(TMP_Text player in _allPlayerNames) {
 				Destroy(player.gameObject);
@@ -117,12 +134,55 @@ namespace MGJ.Runtime.UI.Lobby
 
 			foreach (string playerName in playerNames)
 			{
-				TMP_Text newPlayerLabel = Instantiate(_playerNameLabel, _playerNameLabel.transform.parent);
+				TMP_Text newPlayerLabel = _gameObjectFactory.Create(_playerNameLabel, _playerNameLabel.transform.parent);
 				newPlayerLabel.text = playerName;
 				newPlayerLabel.gameObject.SetActive(true);
 				
 				_allPlayerNames.Add(newPlayerLabel);
 			}
 		}
+
+		public void AddPlayerToRoomList(string newPlayer)
+		{
+			TMP_Text newPlayerLabel = _gameObjectFactory.Create(_playerNameLabel, _playerNameLabel.transform.parent);
+			newPlayerLabel.text = newPlayer;
+			newPlayerLabel.gameObject.SetActive(true);
+
+			_allPlayerNames.Add(newPlayerLabel);
+		}
+
+		public void ShowErrorScreen(string message)
+		{
+			_errorText.text = "Failed To Create Room: " + message;
+			HideAllUi();
+			_errorScreen.SetActive(true);
+		}
+
+		public void UpdateRoomList(IEnumerable<RoomDecorator> roomList)
+		{
+			foreach (RoomButton rb in _allRoomButtons) {
+				Destroy(rb.gameObject);
+			}
+			_allRoomButtons.Clear();
+
+			_roomButton.gameObject.SetActive(false);
+
+			foreach (RoomDecorator room in roomList)
+			{
+				if (room.PlayerCount != room.MaxPlayers && !room.RemovedFromList) {
+					RoomButton newButton = Instantiate(_roomButton, _roomButton.transform.parent);
+					newButton.SetButtonDetails(room);
+					newButton.gameObject.SetActive(true);
+
+					_allRoomButtons.Add(newButton);
+				}
+			}
+		}
+
+		public void ShowStartButton() => 
+			_startButton.SetActive(true);
+
+		public void HideStartButton() => 
+			_startButton.SetActive(false);
 	}
 }

@@ -8,17 +8,19 @@ using UnityEngine;
 
 namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 {
-	public class EntryPoint : MonoBehaviour
+	public class EntryPoint : MonoBehaviour, IApplicationPoint
 	{
-		private void Awake()
+		private void Awake() => 
+			PreparePoint();
+
+		public void PreparePoint()
 		{
 			Debug.Log("Preparing Services...");
 			BindServices();
 			Debug.Log("Services prepared");
 			
 			Debug.Log("Loading next scene...");
-			
-			Container.Services.Resolve<ISceneLoader>().LoadScene("MainMenu");
+			Container.Services.Resolve<ISceneLoader>().LoadScene("MainMenu");	
 		}
 
 		private void BindServices()
