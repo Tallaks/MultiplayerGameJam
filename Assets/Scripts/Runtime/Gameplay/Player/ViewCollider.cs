@@ -7,20 +7,20 @@ namespace MGJ.Runtime.Gameplay.Player
 {
     public class ViewCollider : MonoBehaviour
     {
-        private GameObject selectedObject { get; set; }
+        public GameObject selectedObject;
         public PlayerController controller;
 
-        [SerializeField] private Tag[] tags;
+        // Highlight object and set selected object when viewCollider hits an object
         private void OnTriggerEnter(Collider other) {
-            if (other.gameObject.HasTag(tags[0])) {
-                selectedObject = other.gameObject;
+            selectedObject = other.gameObject;
+            if (other.gameObject.HasTag(GameManager.instance.allTags[0])) {
                 controller.LightObject(other.gameObject, 15);
             }
         }
 
+        // Unhighlight object
         private void OnTriggerExit(Collider other) {
-            if (other.gameObject.HasTag(tags[0])) {
-                selectedObject = other.gameObject;
+            if (other.gameObject.HasTag(GameManager.instance.allTags[0])) {
                 controller.LightObject(other.gameObject, 0);
             }
         }
