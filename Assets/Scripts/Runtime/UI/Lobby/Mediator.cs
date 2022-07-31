@@ -85,5 +85,17 @@ namespace MGJ.Runtime.UI.Lobby
 			DisplayLoadingText("Leaving Room");
 			ShowLoadingScreen();
 		}
+
+		public void UpdateRoomList(IEnumerable<RoomDecorator> roomList) => 
+			_ui.UpdateRoomList(roomList);
+
+		public void JoinRoom(RoomDecorator room)
+		{
+			_lobbyService.JoinRoom(room);
+			
+			_ui.HideAllUi();
+			DisplayLoadingText("Joining Room");
+			ShowLoadingScreen();
+		}
 	}
 }

@@ -49,35 +49,6 @@ namespace MGJ.Runtime.Network
             nameInputScreen.SetActive(false);
         }
         
-        public override void OnRoomListUpdate(List<RoomInfo> roomList) {
-            // Destroy all room buttons
-            foreach (RoomButton rb in allRoomButtons) {
-                Destroy(rb.gameObject);
-            }
-            allRoomButtons.Clear();
-
-            theRoomButton.gameObject.SetActive(false);
-
-            // Create room button if room is not full and the room exists
-            for (int i = 0; i < roomList.Count; i++) {
-                if (roomList[i].PlayerCount != roomList[i].MaxPlayers && !roomList[i].RemovedFromList) {
-                    RoomButton newButton = Instantiate(theRoomButton, theRoomButton.transform.parent);
-                    newButton.SetButtonDetails(roomList[i]);
-                    newButton.gameObject.SetActive(true);
-
-                    allRoomButtons.Add(newButton);
-                }
-            }
-        }
-
-        public void JoinRoom(RoomInfo inputInfo) {
-            PhotonNetwork.JoinRoom(inputInfo.Name);
-
-            CloseMenus();
-            loadingText.text = "Joining Room";
-            loadingScreen.SetActive(true);
-        }
-        
         public override void OnMasterClientSwitched(Player newMasterClient) {
             // Only show start button for host
             if (PhotonNetwork.IsMasterClient) {

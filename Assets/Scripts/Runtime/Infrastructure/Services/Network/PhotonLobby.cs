@@ -23,6 +23,7 @@ namespace MGJ.Runtime.Infrastructure.Services.Network
 		public UnityAction OnPlayerLeftRoomAction { get; set; }
 		public UnityAction<short, string> OnCreateRoomFailedAction { get; set; }
 		public UnityAction OnLeftRoomAction { get; set; }
+		public UnityAction<IEnumerable<RoomDecorator>> OnRoomListUpdateAction { get; set; }
 
 		public void SetNickName(string nickName) => 
 			PhotonNetwork.NickName = nickName;
@@ -33,6 +34,9 @@ namespace MGJ.Runtime.Infrastructure.Services.Network
 			options.MaxPlayers = 3;
 			PhotonNetwork.CreateRoom(roomName, options);
 		}
+
+		public void JoinRoom(RoomDecorator room) => 
+			PhotonNetwork.JoinRoom(room.Name);
 
 		public void LeaveRoom() => 
 			PhotonNetwork.LeaveRoom();
@@ -54,5 +58,11 @@ namespace MGJ.Runtime.Infrastructure.Services.Network
 
 		public override void OnLeftRoom() => 
 			OnLeftRoomAction?.Invoke();
+
+		public override void OnRoomListUpdate(List<RoomInfo> roomList)
+		{
+			List<RoomDecorator> decoratorList = roomList.Select(roomInfo => new RoomDecorator(roomInfo)).ToList();
+			OnRoomListUpdateAction?.Invoke(decoratorList);
+		}
 	}
 }

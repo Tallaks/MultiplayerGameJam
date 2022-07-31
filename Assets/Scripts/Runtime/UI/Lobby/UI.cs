@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using MGJ.Runtime.Infrastructure.DI;
 using MGJ.Runtime.Infrastructure.Services.GameObjects;
+using MGJ.Runtime.Infrastructure.Services.Network;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -35,7 +37,7 @@ namespace MGJ.Runtime.UI.Lobby
 		[Header("Room Browser Screen")]
 		[SerializeField] private GameObject _roomBrowserScreen;
 		[SerializeField] private RoomButton _roomButton;
-		private List<RoomButton> _allRoomButton;
+		private List<RoomButton> _allRoomButtons = new List<RoomButton>();
 
 		[Header("Name Input Screen")] 
 		[SerializeField] private GameObject _nameInputScreen;
@@ -154,6 +156,27 @@ namespace MGJ.Runtime.UI.Lobby
 			_errorText.text = "Failed To Create Room: " + message;
 			HideAllUi();
 			_errorScreen.SetActive(true);
+		}
+
+		public void UpdateRoomList(IEnumerable<RoomDecorator> roomList)
+		{
+			foreach (RoomButton rb in _allRoomButtons) {
+				Destroy(rb.gameObject);
+			}
+			_allRoomButtons.Clear();
+
+			_roomButton.gameObject.SetActive(false);
+
+			foreach (RoomDecorator room in roomList)
+			{
+				if (room.PlayerCount != room.MaxPlayers && !room.RemovedFromList) {
+					RoomButton newButton = Instantiate(_roomButton, _roomButton.transform.parent);
+					newButton.SetButtonDetails(room);
+					newButton.gameObject.SetActive(true);
+
+					_allRoomButtons.Add(newButton);
+				}
+			}
 		}
 	}
 }

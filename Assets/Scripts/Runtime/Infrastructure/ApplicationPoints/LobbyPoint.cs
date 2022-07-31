@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MGJ.Runtime.Infrastructure.DI;
 using MGJ.Runtime.Infrastructure.Services.Coroutines;
 using MGJ.Runtime.Infrastructure.Services.Network;
@@ -41,6 +42,7 @@ namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 			_lobbyService.OnPlayerLeftRoomAction += OnPlayerLeftRoom;
 			_lobbyService.OnCreateRoomFailedAction += OnCreateRoomFailed;
 			_lobbyService.OnLeftRoomAction += OnLeftRoom;
+			_lobbyService.OnRoomListUpdateAction += OnUpdateList;
 			
 			_uiMediator.ShowLoadingScreen();
 			
@@ -56,6 +58,17 @@ namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 			_lobbyService.OnPlayerLeftRoomAction -= OnPlayerLeftRoom;
 			_lobbyService.OnCreateRoomFailedAction -= OnCreateRoomFailed;
 			_lobbyService.OnLeftRoomAction -= OnLeftRoom;
+			_lobbyService.OnRoomListUpdateAction -= OnUpdateList;
+		}
+
+		private void OnUpdateList(IEnumerable<RoomDecorator> roomList)
+		{
+			_uiMediator.UpdateRoomList(roomList);
+			
+
+
+			// Create room button if room is not full and the room exists
+
 		}
 
 		private void OnLeftRoom() => 
