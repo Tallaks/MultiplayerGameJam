@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using MGJ.Runtime.UI.MainMenu;
 using UnityEditor;
 using UnityEngine;
@@ -26,4 +25,3 @@ namespace MGJ.Editor
 		}
 	}
 }
-#endif

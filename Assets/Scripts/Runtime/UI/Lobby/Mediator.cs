@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MGJ.Runtime.Infrastructure.DI;
 using MGJ.Runtime.Infrastructure.Services.Network;
+using MGJ.Runtime.Infrastructure.Services.SceneManagement;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,9 +12,13 @@ namespace MGJ.Runtime.UI.Lobby
 		[SerializeField] private UI _ui;
 		
 		private ILobby _lobbyService;
+		private ISceneLoader _sceneLoader;
 
-		private void Awake() => 
+		private void Awake()
+		{
 			_lobbyService = Container.Services.Resolve<ILobby>();
+			_sceneLoader = Container.Services.Resolve<ISceneLoader>();
+		}
 
 		public void DisplayLoadingText(string text) => 
 			_ui.DisplayLoadingText(text);
@@ -64,9 +69,24 @@ namespace MGJ.Runtime.UI.Lobby
 		public void ShowCurrentRoomScreen(string lobbyServiceCurrentRoomName) => 
 			_ui.ShowCurrentRoomScreen(lobbyServiceCurrentRoomName, _lobbyService.PlayersNickNames, _lobbyService.IsMasterClient);
 
-		public void UpdatePlayerList()
+		public void UpdatePlayerList() => 
+			_ui.ListAllPlayers(_lobbyService.PlayersNickNames);
+
+		public void AddNewPlayerNameToList(string newPlayer) => 
+			_ui.AddPlayerToRoomList(newPlayer);
+
+		public void ShowErrorScreen(string message) => 
+			_ui.ShowErrorScreen(message);
+
+		public void StartGame() => 
+			_sceneLoader.LoadScene("TestScene");
+
+		public void LeaveRoom()
 		{
-			
+			_lobbyService.LeaveRoom();
+			_ui.HideAllUi();
+			DisplayLoadingText("Leaving Room");
+			ShowLoadingScreen();
 		}
 	}
 }

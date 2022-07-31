@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Photon.Pun;
-using Photon.Realtime;
+using MGJ.Runtime.Infrastructure.DI;
+using MGJ.Runtime.Infrastructure.Services.GameObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -40,9 +40,17 @@ namespace MGJ.Runtime.UI.Lobby
 		[Header("Name Input Screen")] 
 		[SerializeField] private GameObject _nameInputScreen;
 		[SerializeField] private TMP_InputField _nameInput;
+		
+		private IGameObjectFactory _gameObjectFactory;
 
-		private void Awake() => 
+		private void Awake()
+		{
+			Construct();
 			HideAllUi();
+		}
+
+		private void Construct() => 
+			_gameObjectFactory = Container.Services.Resolve<IGameObjectFactory>();
 
 		public void HideAllUi() 
 		{
@@ -55,9 +63,13 @@ namespace MGJ.Runtime.UI.Lobby
 			_nameInputScreen.SetActive(false);
 		}
 
-		public void ShowLoadingScreen() => 
+		public void ShowLoadingScreen()
+		{
+			HideAllUi();
 			_loadingScreen.SetActive(true);
-		
+			DisplayLoadingText("Connecting To Network...");
+		}
+
 		public void DisplayLoadingText(string text) => 
 			_loadingText.text = text;
 
@@ -108,7 +120,7 @@ namespace MGJ.Runtime.UI.Lobby
 			_startButton.SetActive(isMasterClient);
 		}
 		
-		private void ListAllPlayers(IEnumerable<string> playerNames) 
+		public void ListAllPlayers(IEnumerable<string> playerNames) 
 		{
 			foreach(TMP_Text player in _allPlayerNames) {
 				Destroy(player.gameObject);
@@ -117,12 +129,28 @@ namespace MGJ.Runtime.UI.Lobby
 
 			foreach (string playerName in playerNames)
 			{
-				TMP_Text newPlayerLabel = Instantiate(_playerNameLabel, _playerNameLabel.transform.parent);
+				TMP_Text newPlayerLabel = _gameObjectFactory.Create(_playerNameLabel, _playerNameLabel.transform.parent);
 				newPlayerLabel.text = playerName;
 				newPlayerLabel.gameObject.SetActive(true);
 				
 				_allPlayerNames.Add(newPlayerLabel);
 			}
+		}
+
+		public void AddPlayerToRoomList(string newPlayer)
+		{
+			TMP_Text newPlayerLabel = _gameObjectFactory.Create(_playerNameLabel, _playerNameLabel.transform.parent);
+			newPlayerLabel.text = newPlayer;
+			newPlayerLabel.gameObject.SetActive(true);
+
+			_allPlayerNames.Add(newPlayerLabel);
+		}
+
+		public void ShowErrorScreen(string message)
+		{
+			_errorText.text = "Failed To Create Room: " + message;
+			HideAllUi();
+			_errorScreen.SetActive(true);
 		}
 	}
 }

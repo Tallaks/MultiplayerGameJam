@@ -49,49 +49,6 @@ namespace MGJ.Runtime.Network
             nameInputScreen.SetActive(false);
         }
         
-        // Loops through each player in the room and displays player name
-        private void ListAllPlayers() {
-            foreach(TMP_Text player in allPlayerNames) {
-                Destroy(player.gameObject);
-            }
-            allPlayerNames.Clear();
-
-            Player[] players = PhotonNetwork.PlayerList;
-            for (int i = 0; i < players.Length; i++) {
-                TMP_Text newPlayerLabel = Instantiate(playerNameLabel, playerNameLabel.transform.parent);
-                newPlayerLabel.text = players[i].NickName;
-                newPlayerLabel.gameObject.SetActive(true);
-
-                allPlayerNames.Add(newPlayerLabel);
-            }
-        }
-
-        // Adds players nickname to the name display panel in a room
-        public override void OnPlayerEnteredRoom(Player newPlayer) {
-            TMP_Text newPlayerLabel = Instantiate(playerNameLabel, playerNameLabel.transform.parent);
-            newPlayerLabel.text = newPlayer.NickName;
-            newPlayerLabel.gameObject.SetActive(true);
-
-            allPlayerNames.Add(newPlayerLabel);
-        }
-
-        public override void OnPlayerLeftRoom(Player otherPlayer) {
-            ListAllPlayers();
-        }
-
-        public override void OnCreateRoomFailed(short returnCode, string message) {
-            errorText.text = "Failed To Create Room: " + message;
-            CloseMenus();
-            errorScreen.SetActive(true);
-        }
-        
-        public void LeaveRoom() {
-            PhotonNetwork.LeaveRoom();
-            CloseMenus();
-            loadingText.text = "Leaving Room";
-            loadingScreen.SetActive(true);
-        }
-
         public override void OnLeftRoom() {
             CloseMenus();
             menuButtons.SetActive(true);

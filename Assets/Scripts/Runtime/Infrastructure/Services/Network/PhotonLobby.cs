@@ -19,7 +19,10 @@ namespace MGJ.Runtime.Infrastructure.Services.Network
 			PhotonNetwork.PlayerList.Select(k => k.NickName);
 		public UnityAction OnJoinedLobbyAction { get; set; }
 		public UnityAction OnJoinedRoomAction { get; set; }
-		
+		public UnityAction<string> OnPlayerEnteredRoomAction { get; set; }
+		public UnityAction OnPlayerLeftRoomAction { get; set; }
+		public UnityAction<short, string> OnCreateRoomFailedAction { get; set; }
+
 		public void SetNickName(string nickName) => 
 			PhotonNetwork.NickName = nickName;
 
@@ -30,10 +33,22 @@ namespace MGJ.Runtime.Infrastructure.Services.Network
 			PhotonNetwork.CreateRoom(roomName, options);
 		}
 
+		public void LeaveRoom() => 
+			PhotonNetwork.LeaveRoom();
+
 		public override void OnJoinedRoom() => 
 			OnJoinedRoomAction?.Invoke();
 
 		public override void OnJoinedLobby() => 
 			OnJoinedLobbyAction?.Invoke();
+
+		public override void OnPlayerEnteredRoom(Player newPlayer) => 
+			OnPlayerEnteredRoomAction?.Invoke(newPlayer.NickName);
+
+		public override void OnPlayerLeftRoom(Player otherPlayer) => 
+			OnPlayerLeftRoomAction?.Invoke();
+
+		public override void OnCreateRoomFailed(short returnCode, string message) => 
+			OnCreateRoomFailedAction?.Invoke(returnCode, message);
 	}
 }

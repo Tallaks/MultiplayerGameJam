@@ -1605,7 +1605,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 816343655}
+      objectReference: {fileID: 1288657726}
     - target: {fileID: 9000415036307148522, guid: 32def66d18a2784459bf259e53417973,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -1614,7 +1614,7 @@ PrefabInstance:
     - target: {fileID: 9000415036307148522, guid: 32def66d18a2784459bf259e53417973,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Launcher, Assembly-CSharp
+      value: MGJ.Runtime.UI.Lobby.Mediator, MGJ
       objectReference: {fileID: 0}
     - target: {fileID: 9000415036307148522, guid: 32def66d18a2784459bf259e53417973,
         type: 3}
@@ -3404,7 +3404,7 @@ MonoBehaviour:
   _createRoomScreen: {fileID: 1844441940}
   _roomNameInput: {fileID: 456389158}
   _roomScreen: {fileID: 964175055}
-  _roomNameText: {fileID: 1937933080}
+  _currentRoomNameText: {fileID: 1937933080}
   _playerNameLabel: {fileID: 1162800650}
   _errorScreen: {fileID: 2011223537}
   _errorText: {fileID: 1655594464}
