@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.intothedev.multitags": {
+      "version": "https://github.com/IntoTheDev/MultiTag-System-for-Unity.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "dd807fb2688a5f19d671928f243c70f66f4acf55"
+    },
     "com.unity.burst": {
       "version": "1.6.5",
       "depth": 1,
@@ -26,7 +33,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "3.0.14",
+      "version": "3.0.15",
       "depth": 0,
       "source": "registry",
       "dependencies": {
