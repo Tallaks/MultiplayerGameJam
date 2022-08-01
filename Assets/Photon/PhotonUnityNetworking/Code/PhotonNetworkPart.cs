@@ -226,9 +226,9 @@ namespace Photon.Pun
         /// Represents the scene loading progress when using LoadLevel().
         /// </summary>
         /// <remarks>
-        /// The value is 0 if the app never loaded a scene with LoadLevel().</br>
-        /// During async scene loading, the value is between 0 and 1.</br>
-        /// Once any scene completed loading, it stays at 1 (signaling "done").</br>
+        /// The value is 0 if the app never loaded a scene with LoadLevel().
+        /// During async scene loading, the value is between 0 and 1.
+        /// Once any scene completed loading, it stays at 1 (signaling "done").
         /// </remarks>
         /// <value>The level loading progress. Ranges from 0 to 1.</value>
         public static float LevelLoadingProgress

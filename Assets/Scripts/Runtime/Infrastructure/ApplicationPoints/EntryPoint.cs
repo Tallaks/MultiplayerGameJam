@@ -2,22 +2,25 @@ using MGJ.Runtime.Infrastructure.DI;
 using MGJ.Runtime.Infrastructure.Services.Assets;
 using MGJ.Runtime.Infrastructure.Services.Coroutines;
 using MGJ.Runtime.Infrastructure.Services.GameObjects;
+using MGJ.Runtime.Infrastructure.Services.Network;
 using MGJ.Runtime.Infrastructure.Services.SceneManagement;
 using UnityEngine;
 
-namespace MGJ.Runtime.Infrastructure
+namespace MGJ.Runtime.Infrastructure.ApplicationPoints
 {
-	public class EntryPoint : MonoBehaviour
+	public class EntryPoint : MonoBehaviour, IApplicationPoint
 	{
-		private void Awake()
+		private void Awake() => 
+			PreparePoint();
+
+		public void PreparePoint()
 		{
 			Debug.Log("Preparing Services...");
 			BindServices();
 			Debug.Log("Services prepared");
 			
 			Debug.Log("Loading next scene...");
-			
-			Container.Services.Resolve<ISceneLoader>().LoadScene("MainMenu");
+			Container.Services.Resolve<ISceneLoader>().LoadScene("MainMenu");	
 		}
 
 		private void BindServices()
@@ -47,6 +50,17 @@ namespace MGJ.Runtime.Infrastructure
 				Bind<ISceneLoader>().
 				To<StandardSceneLoader>().
 				FromMethod(() => new StandardSceneLoader(Container.Services.Resolve<ICoroutineRunner>()));
+			
+			Container.Services.
+				Bind<IConnection>().
+				To<PhotonConnectionService>().
+				FromMethod(() => gameObjectFactory.Create(assetLoader.LoadFromResources<GameObject>("PhotonConnection"))
+					.GetComponent<PhotonConnectionService>());
+
+			Container.Services.
+				Bind<ILobby>().
+				To<PhotonLobby>().
+				FromMethod(FindObjectOfType<PhotonLobby>);
 		}
 	}
 }
