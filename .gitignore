@@ -60,3 +60,5 @@ sysinfo.txt
 crashlytics-build.properties
 
 .idea/
+Assets/Recordings/
+Assets/Recordings.meta
