@@ -143,7 +143,7 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 64
-  isOnline: 1
+  isOnline: 0
   viewCollider: {fileID: 7171082352231723469}
   objectFollowSpeed: 4
   grabPoint: {fileID: 2890608584795968309}
@@ -364,7 +364,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedObject: {fileID: 0}
   controller: {fileID: 1137791245794256089}
-  isHighlighting: 0
 --- !u!54 &1258415794915626811
 Rigidbody:
   m_ObjectHideFlags: 0
