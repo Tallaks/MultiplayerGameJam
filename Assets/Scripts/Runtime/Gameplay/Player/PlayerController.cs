@@ -39,6 +39,8 @@ namespace MGJ.Runtime.Gameplay.Player
         [SerializeField] private float shipSpeed;
         private Rigidbody shipRB;
         private GameObject ship;
+        public float maxSpeed = .12f;
+        public float currentSpeed;
 
         private void Start() {
             Cursor.lockState = CursorLockMode.Locked;
@@ -145,9 +147,17 @@ namespace MGJ.Runtime.Gameplay.Player
         }
 
         private void DriveShip() {
-            shipRB.AddForce(-Input.GetAxisRaw("Vertical") * shipSpeed * ship.transform.right);
+            //shipRB.AddForce(-Input.GetAxisRaw("Vertical") * shipSpeed * ship.transform.right);
+            if (Input.GetAxisRaw("Vertical") == 1) {
+                currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, Input.GetAxisRaw("Vertical") * Time.deltaTime * shipSpeed);
+            }
+            else if (Input.GetAxisRaw("Vertical") == -1) {
+                currentSpeed = Mathf.Lerp(currentSpeed, -maxSpeed/3, -Input.GetAxisRaw("Vertical") * Time.deltaTime * shipSpeed / 4);
+            }
 
-            if (Input.GetAxis("Vertical") != 0) {
+            ship.transform.position += -currentSpeed * ship.transform.transform.right;
+
+            if (currentSpeed > 0.02f || currentSpeed < -0.02f) {
                 m_EulerAngleVelocity = new Vector3(0, Input.GetAxis("Horizontal") * rotateSpeed, 0);
                 Quaternion deltaRotation = Quaternion.Euler(m_EulerAngleVelocity * Time.fixedDeltaTime);
                 shipRB.MoveRotation(shipRB.rotation * deltaRotation);

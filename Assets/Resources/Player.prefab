@@ -149,7 +149,9 @@ MonoBehaviour:
   objectFollowSpeed: 4
   grabPoint: {fileID: 2890608584795968309}
   rotateSpeed: 3
-  shipSpeed: 6
+  shipSpeed: 0.3
+  maxSpeed: 0.1
+  currentSpeed: 0
 --- !u!143 &1137791245794256090
 CharacterController:
   m_ObjectHideFlags: 0
