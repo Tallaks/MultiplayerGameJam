@@ -56,21 +56,21 @@ namespace MGJ.Runtime.Gameplay.Player
         private void Update() {
             // Only control your your character
             if (photonView.IsMine || !isOnline) {
+                mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
+                // Rotate player around y axis
+                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
+
+                verticalRotStore += mouseInput.y;
+                verticalRotStore = Mathf.Clamp(verticalRotStore, -80f, 80f);
+                // Moving camera up and down
+                if (invertLook) {
+                    viewPoint.rotation = Quaternion.Euler(verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+                }
+                else {
+                    viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+                }
+
                 if (!isDriving) {
-                    mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
-                    // Rotate player around y axis
-                    transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
-
-                    verticalRotStore += mouseInput.y;
-                    verticalRotStore = Mathf.Clamp(verticalRotStore, -80f, 80f);
-                    // Moving camera up and down
-                    if (invertLook) {
-                        viewPoint.rotation = Quaternion.Euler(verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
-                    }
-                    else {
-                        viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
-                    }
-
                     moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
 
                     float yVel = movement.y;
@@ -157,8 +157,8 @@ namespace MGJ.Runtime.Gameplay.Player
 
             ship.transform.position += -currentSpeed * ship.transform.transform.right;
 
-            if (currentSpeed > 0.02f || currentSpeed < -0.02f) {
-                m_EulerAngleVelocity = new Vector3(0, Input.GetAxis("Horizontal") * rotateSpeed, 0);
+            if (currentSpeed > 0.002f || currentSpeed < -0.002f) {
+                m_EulerAngleVelocity = new Vector3(0, Input.GetAxis("Horizontal") * rotateSpeed * currentSpeed * 10, 0);
                 Quaternion deltaRotation = Quaternion.Euler(m_EulerAngleVelocity * Time.fixedDeltaTime);
                 shipRB.MoveRotation(shipRB.rotation * deltaRotation);
             }
