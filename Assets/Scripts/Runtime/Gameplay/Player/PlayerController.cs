@@ -27,54 +27,68 @@ namespace MGJ.Runtime.Gameplay.Player
         public LayerMask groundLayers;
 
         public bool isOnline; // Boolean for testing. Leave ON for networking and game builds, OFF for testing without connection to the network.
+        public bool isDriving = false;
 
         public ViewCollider viewCollider; // Manager for selected objects
         public float objectFollowSpeed; // How fast an object will travel to grabPoint
         public Transform grabPoint; // Point at which objects will travel to when picking up objects
 
+        /* SHIP DRIVING */
+        private Vector3 m_EulerAngleVelocity;
+        [SerializeField] private float rotateSpeed;
+        [SerializeField] private float shipSpeed;
+        private Rigidbody shipRB;
+        private GameObject ship;
+
         private void Start() {
             Cursor.lockState = CursorLockMode.Locked;
 
             cam = Camera.main;
+
+            ship = GameObject.Find("Ship");
+            shipRB = ship.GetComponent<Rigidbody>();
+
+            transform.parent = ship.transform;
         }
 
         private void Update() {
             // Only control your your character
             if (photonView.IsMine || !isOnline) {
+                if (!isDriving) {
+                    mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
+                    // Rotate player around y axis
+                    transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
 
-                mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
-                // Rotate player around y axis
-                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
+                    verticalRotStore += mouseInput.y;
+                    verticalRotStore = Mathf.Clamp(verticalRotStore, -80f, 80f);
+                    // Moving camera up and down
+                    if (invertLook) {
+                        viewPoint.rotation = Quaternion.Euler(verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+                    }
+                    else {
+                        viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+                    }
 
-                verticalRotStore += mouseInput.y;
-                verticalRotStore = Mathf.Clamp(verticalRotStore, -80f, 80f);
-                // Moving camera up and down
-                if (invertLook) {
-                    viewPoint.rotation = Quaternion.Euler(verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+                    moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+
+                    float yVel = movement.y;
+                    movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized;
+                    movement.y = yVel;
+
+                    if (controller.isGrounded) {
+                        movement.y = 0f;
+                    }
+                    // Check if player is on the ground with raycast
+                    isGrounded = Physics.Raycast(groundCheck.position, Vector3.down, .25f, groundLayers);
+
+                    if (Input.GetButtonDown("Jump") && isGrounded) {
+                        movement.y = jumpForce;
+                    }
+
+                    movement.y += Physics.gravity.y * Time.deltaTime * gravityMod;
+
+                    controller.Move(movement * moveSpeed * Time.deltaTime);
                 }
-                else {
-                    viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
-                }
-
-                moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
-
-                float yVel = movement.y;
-                movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized;
-                movement.y = yVel;
-
-                if (controller.isGrounded) {
-                    movement.y = 0f;
-                }
-                // Check if player is on the ground with raycast
-                isGrounded = Physics.Raycast(groundCheck.position, Vector3.down, .25f, groundLayers);
-
-                if (Input.GetButtonDown("Jump") && isGrounded) {
-                    movement.y = jumpForce;
-                }
-
-                movement.y += Physics.gravity.y * Time.deltaTime * gravityMod;
-
-                controller.Move(movement * moveSpeed * Time.deltaTime);
 
                 // Locking and unlocking cursor
                 if (Input.GetKeyDown(KeyCode.Escape)) {
@@ -85,6 +99,10 @@ namespace MGJ.Runtime.Gameplay.Player
                         Cursor.lockState = CursorLockMode.Locked;
                     }
                 }
+
+                if (isDriving) {
+                    DriveShip();
+                }
             }
             // Grab object if right click is pressed
             if(Input.GetMouseButton(1) && viewCollider.selectedObject != null) {
@@ -93,6 +111,10 @@ namespace MGJ.Runtime.Gameplay.Player
             // Drop object when right click is released
             if(Input.GetMouseButtonUp(1)) {
                 viewCollider.selectedObject = null;
+            }
+            // Drive ship
+            if(Input.GetKeyDown("2")) {
+                isDriving = !isDriving;
             }
         }
 
@@ -120,6 +142,16 @@ namespace MGJ.Runtime.Gameplay.Player
             // Drop object if it is too far
             if (distance > 1.35f)
                 viewCollider.selectedObject = null;
+        }
+
+        private void DriveShip() {
+            shipRB.AddForce(-Input.GetAxisRaw("Vertical") * shipSpeed * ship.transform.right);
+
+            if (Input.GetAxis("Vertical") != 0) {
+                m_EulerAngleVelocity = new Vector3(0, Input.GetAxis("Horizontal") * rotateSpeed, 0);
+                Quaternion deltaRotation = Quaternion.Euler(m_EulerAngleVelocity * Time.fixedDeltaTime);
+                shipRB.MoveRotation(shipRB.rotation * deltaRotation);
+            }
         }
     }
 }

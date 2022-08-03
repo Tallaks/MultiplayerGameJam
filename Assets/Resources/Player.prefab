@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: -4886224598627970353}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,9 +144,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   isOnline: 0
+  isDriving: 0
   viewCollider: {fileID: 7171082352231723469}
   objectFollowSpeed: 4
   grabPoint: {fileID: 2890608584795968309}
+  rotateSpeed: 3
+  shipSpeed: 6
 --- !u!143 &1137791245794256090
 CharacterController:
   m_ObjectHideFlags: 0
