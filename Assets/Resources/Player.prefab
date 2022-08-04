@@ -148,9 +148,9 @@ MonoBehaviour:
   viewCollider: {fileID: 7171082352231723469}
   objectFollowSpeed: 4
   grabPoint: {fileID: 2890608584795968309}
-  rotateSpeed: 3
-  shipAcceleration: 0.3
-  maxSpeed: 0.1
+  rotateSpeed: 0.3
+  shipAcceleration: 0.7
+  maxSpeed: 7
   currentSpeed: 0
 --- !u!143 &1137791245794256090
 CharacterController:

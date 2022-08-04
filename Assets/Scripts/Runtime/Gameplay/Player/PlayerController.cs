@@ -155,7 +155,7 @@ namespace MGJ.Runtime.Gameplay.Player
                 currentSpeed = Mathf.Lerp(currentSpeed, -maxSpeed/3, -Input.GetAxisRaw("Vertical") * Time.deltaTime * shipAcceleration / 4);
             }
 
-            ship.transform.position += -currentSpeed * ship.transform.transform.right;
+            ship.transform.position += -currentSpeed * ship.transform.transform.right * Time.deltaTime;
 
             if (currentSpeed > 0.002f || currentSpeed < -0.002f) {
                 m_EulerAngleVelocity = new Vector3(0, Input.GetAxis("Horizontal") * rotateSpeed * currentSpeed * 10, 0);
