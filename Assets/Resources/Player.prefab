@@ -143,7 +143,7 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 64
-  isOnline: 0
+  isOnline: 1
   isDriving: 0
   viewCollider: {fileID: 7171082352231723469}
   objectFollowSpeed: 4

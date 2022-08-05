@@ -47,10 +47,16 @@ namespace MGJ.Runtime.Gameplay.Player
 
             cam = Camera.main;
 
-            ship = GameObject.Find("Ship");
-            shipRB = ship.GetComponent<Rigidbody>();
+            //transform.parent = ship.transform;
+            if (photonView.Owner.IsMasterClient) {
+                if (!GameObject.FindGameObjectWithTag("Ship")) {
+                    
+                }
+            }
+                ship = GameObject.FindGameObjectWithTag("Ship");
 
-            transform.parent = ship.transform;
+            transform.SetParent(ship.transform, true);
+            shipRB = ship.GetComponent<Rigidbody>();
         }
 
         private void Update() {
@@ -155,7 +161,7 @@ namespace MGJ.Runtime.Gameplay.Player
                 currentSpeed = Mathf.Lerp(currentSpeed, -maxSpeed/3, -Input.GetAxisRaw("Vertical") * Time.deltaTime * shipAcceleration / 4);
             }
 
-            ship.transform.position += -currentSpeed * ship.transform.transform.right * Time.deltaTime;
+            //ship.transform.position += -currentSpeed * ship.transform.transform.right * Time.deltaTime;
 
             if (currentSpeed > 0.002f || currentSpeed < -0.002f) {
                 m_EulerAngleVelocity = new Vector3(0, Input.GetAxis("Horizontal") * rotateSpeed * currentSpeed * 10, 0);
@@ -165,6 +171,12 @@ namespace MGJ.Runtime.Gameplay.Player
             else {
                 shipRB.angularVelocity = Vector3.zero;
             }
+
+            photonView.RPC("ShipMovement", RpcTarget.All, -currentSpeed * ship.transform.transform.right * Time.deltaTime);
+        }
+        [PunRPC]
+        private void ShipMovement(Vector3 moveVector) {
+            ship.transform.position += moveVector;
         }
     }
 }

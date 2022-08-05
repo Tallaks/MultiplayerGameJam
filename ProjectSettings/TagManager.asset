@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Tagable
+  - Ship
   layers:
   - Default
   - TransparentFX

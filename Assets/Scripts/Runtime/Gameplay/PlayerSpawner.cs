@@ -1,6 +1,7 @@
 using MGJ.Runtime.Gameplay.Player;
 using Photon.Pun;
 using UnityEngine;
+using System.Collections;
 
 namespace MGJ.Runtime.Gameplay
 {
@@ -17,7 +18,7 @@ namespace MGJ.Runtime.Gameplay
 
         void Start() {
             if(PhotonNetwork.IsConnected) {
-                SpawnPlayer();
+                StartCoroutine(SpawnWait());
             }
             else {
                 SpawnTestPlayer();
@@ -35,6 +36,11 @@ namespace MGJ.Runtime.Gameplay
             Transform spawnPoint = SpawnManager.instance.GetSpawnPoint();
 
             player = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+        }
+
+        public IEnumerator SpawnWait() {
+            yield return new WaitForSeconds(1);
+            SpawnPlayer();
         }
     }
 }
