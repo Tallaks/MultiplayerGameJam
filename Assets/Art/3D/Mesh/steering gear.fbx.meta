@@ -3,7 +3,27 @@ guid: cc2fc12bcf2b3714787749e5b4f6b2b9
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_PaintedMetal_green
+    second: {fileID: 2100000, guid: 909fb10159fe9e14694ea847c2f94121, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_ironRaw
+    second: {fileID: 2100000, guid: bd1d524e84e6176428f8dc1d288a9f48, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_metalpipe
+    second: {fileID: 2100000, guid: dc100218007bbf347ad9f3e81109df3e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: 909fb10159fe9e14694ea847c2f94121, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
