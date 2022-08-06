@@ -150,7 +150,7 @@ MonoBehaviour:
   grabPoint: {fileID: 2890608584795968309}
   rotateSpeed: 0.3
   shipAcceleration: 0.7
-  maxSpeed: 7
+  maxSpeed: 13
   currentSpeed: 0
 --- !u!143 &1137791245794256090
 CharacterController:
@@ -384,7 +384,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!1 &8917236953676297137
 GameObject:
   m_ObjectHideFlags: 0

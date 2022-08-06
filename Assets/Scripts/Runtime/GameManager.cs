@@ -22,7 +22,7 @@ namespace MGJ
         private void Start() {
             if(PhotonNetwork.IsMasterClient) {
                 //photonView.RPC("SpawnShip", RpcTarget.AllBuffered);
-                PhotonNetwork.InstantiateRoomObject("Ship", new Vector3(60, -11, 0), Quaternion.identity);
+                PhotonNetwork.InstantiateRoomObject("Ship", new Vector3(60, -16, 0), Quaternion.identity);
             }
         }
         [PunRPC]
