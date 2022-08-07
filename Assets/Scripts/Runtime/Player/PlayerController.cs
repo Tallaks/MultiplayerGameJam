@@ -2,6 +2,8 @@ using Photon.Pun;
 using UnityEngine;
 using ToolBox.Tags;
 using ToolBox;
+using System.Collections;
+using UnityEngine.UI;
 
 namespace MGJ.Runtime.Gameplay.Player
 {
@@ -37,30 +39,32 @@ namespace MGJ.Runtime.Gameplay.Player
         private Vector3 m_EulerAngleVelocity;
         [SerializeField] private float rotateSpeed;
         [SerializeField] private float shipAcceleration;
+
         private Rigidbody shipRB;
         private GameObject ship;
+
         public float maxSpeed = .12f;
         public float currentSpeed;
+
         private Transform driverPosition;
         private Transform navigatorPosition;
         private Quaternion deltaRotation;
+
         private bool isSitting = false;
+        public bool isNavigating = false;
+
+        public GameObject waitText;
 
         private void Start() {
-            driverPosition = GameObject.Find("DriverPosition").transform;
+            driverPosition = GameObject.Find("SteeringTransform").transform;
             navigatorPosition = GameObject.Find("TopSeatSpot").transform;
+            waitText.SetActive(false);
 
             Cursor.lockState = CursorLockMode.Locked;
 
             cam = Camera.main;
 
-            //transform.parent = ship.transform;
-            if (photonView.Owner.IsMasterClient) {
-                if (!GameObject.FindGameObjectWithTag("Ship")) {
-                    
-                }
-            }
-                ship = GameObject.FindGameObjectWithTag("Ship");
+            ship = GameObject.FindGameObjectWithTag("Ship");
 
             transform.SetParent(ship.transform, true);
             shipRB = ship.GetComponent<Rigidbody>();
@@ -103,6 +107,12 @@ namespace MGJ.Runtime.Gameplay.Player
                     movement.y += Physics.gravity.y * Time.deltaTime * gravityMod;
 
                     controller.Move(movement * moveSpeed * Time.deltaTime);
+
+                    shipRB.velocity = Vector3.zero;
+                    shipRB.angularVelocity = Vector3.zero;
+                }
+                else {
+                    DriveShip();
                 }
 
                 // Locking and unlocking cursor
@@ -115,15 +125,16 @@ namespace MGJ.Runtime.Gameplay.Player
                     }
                 }
 
-                if (isDriving) {
-                    DriveShip();
+                if(viewCollider.selectedObject.name == "SteeringCollider") {
+                    LightObject(GameObject.Find("Panel"), 15);
+                    if (Input.GetKeyDown(KeyCode.E)) {
+                        isDriving = !isDriving;
+                        StartCoroutine(WaitText());
+                    }
                 }
 
-                if(viewCollider.selectedObject.name == "steering wheel" && Input.GetKeyDown(KeyCode.E)) {
-                    print("driving");
-                    isDriving = !isDriving;
-                }
                 else if(viewCollider.selectedObject.name == "TopSeat" && Input.GetKeyDown(KeyCode.E)) {
+                    //photonView.RPC("SetNavigator", RpcTarget.All);
                     isSitting = !isSitting;
                 }
 
@@ -198,6 +209,12 @@ namespace MGJ.Runtime.Gameplay.Player
         private void ShipMovement(Vector3 moveVector, Quaternion rotate) {
             ship.transform.position += moveVector;
             shipRB.MoveRotation(shipRB.rotation * rotate);
+        }
+
+        private IEnumerator WaitText() {
+            waitText.SetActive(true);
+            yield return new WaitForSeconds(3);
+            waitText.SetActive(false);
         }
     }
 }

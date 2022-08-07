@@ -14,6 +14,7 @@ namespace MGJ.Runtime.Gameplay
         }
 
         public GameObject playerPrefab;
+        public GameObject loadingPanel;
         private GameObject player;
 
         void Start() {
@@ -39,7 +40,9 @@ namespace MGJ.Runtime.Gameplay
         }
 
         public IEnumerator SpawnWait() {
+            loadingPanel.SetActive(true);
             yield return new WaitForSeconds(1);
+            loadingPanel.SetActive(false);
             SpawnPlayer();
         }
     }

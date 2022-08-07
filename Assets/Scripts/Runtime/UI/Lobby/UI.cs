@@ -42,6 +42,9 @@ namespace MGJ.Runtime.UI.Lobby
 		[Header("Name Input Screen")] 
 		[SerializeField] private GameObject _nameInputScreen;
 		[SerializeField] private TMP_InputField _nameInput;
+
+		[Header("Info Screen")]
+		[SerializeField] private GameObject _infoScreen;
 		
 		private IGameObjectFactory _gameObjectFactory;
 
@@ -71,6 +74,11 @@ namespace MGJ.Runtime.UI.Lobby
 			_loadingScreen.SetActive(true);
 			DisplayLoadingText("Connecting To Network...");
 		}
+
+		public void ShowInfoScreen() {
+			HideAllUi();
+			_infoScreen.SetActive(true);
+        }
 
 		public void DisplayLoadingText(string text) => 
 			_loadingText.text = text;
