@@ -28,5 +28,10 @@ namespace MGJ
             loseScreen.SetActive(false);
             winScreen.SetActive(false);
         }
+
+        public IEnumerator QuitTime() {
+            yield return new WaitForSeconds(4);
+            Application.Quit();
+        }
     }
 }

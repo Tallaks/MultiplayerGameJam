@@ -66,6 +66,7 @@ namespace MGJ.Runtime.UI.Lobby
 			_errorScreen.SetActive(false);
 			_roomBrowserScreen.SetActive(false);
 			_nameInputScreen.SetActive(false);
+			_infoScreen.SetActive(false);
 		}
 
 		public void ShowLoadingScreen()

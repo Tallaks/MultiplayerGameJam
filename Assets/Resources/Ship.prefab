@@ -402,7 +402,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loseScreen: {fileID: 0}
   winScreen: {fileID: 0}
-  isSitting: 0
 --- !u!1 &8820628739486562542
 GameObject:
   m_ObjectHideFlags: 0
