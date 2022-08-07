@@ -3,7 +3,12 @@ guid: 4e3fd03fad89b5f428f85a8bc04d2fce
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_shipHull
+    second: {fileID: 2100000, guid: 0475f8083d8f07f4db5ac4e2f3ac5321, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
