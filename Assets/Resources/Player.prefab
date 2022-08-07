@@ -151,7 +151,7 @@ MonoBehaviour:
   grabPoint: {fileID: 2890608584795968309}
   rotateSpeed: 0.1
   shipAcceleration: 0.7
-  maxSpeed: 13
+  maxSpeed: 17
   currentSpeed: 0
   isNavigating: 0
   waitText: {fileID: 2501167082237567204}
